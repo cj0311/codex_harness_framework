@@ -2,14 +2,26 @@
   "hooks": {
     "PreToolUse": [
       {
-        "matcher": "Bash|apply_patch|Edit|Write",
+        "matcher": "Bash",
         "hooks": [
           {
             "type": "command",
-            "command": "python3 .codex/hooks/pre_tool_use.py",
-            "commandWindows": "py -3 .codex\\hooks\\pre_tool_use.py",
+            "command": "python3 \"$(git rev-parse --show-toplevel)/.codex/hooks/pre_tool_use.py\"",
+            "commandWindows": "cmd /V:ON /C \"@for /f \"delims=\" %r in ('git rev-parse --show-toplevel') do @py -3 \"%r\\.codex\\hooks\\pre_tool_use.py\"\"",
             "timeout": 30,
-            "statusMessage": "Checking Codex tool use"
+            "statusMessage": "Checking shell command"
+          }
+        ]
+      },
+      {
+        "matcher": "apply_patch|Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$(git rev-parse --show-toplevel)/.codex/hooks/pre_tool_use.py\"",
+            "commandWindows": "cmd /V:ON /C \"@for /f \"delims=\" %r in ('git rev-parse --show-toplevel') do @py -3 \"%r\\.codex\\hooks\\pre_tool_use.py\"\"",
+            "timeout": 30,
+            "statusMessage": "Checking file edit"
           }
         ]
       }
@@ -20,8 +32,8 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 .codex/hooks/stop_verify.py",
-            "commandWindows": "py -3 .codex\\hooks\\stop_verify.py",
+            "command": "python3 \"$(git rev-parse --show-toplevel)/.codex/hooks/stop_verify.py\"",
+            "commandWindows": "cmd /V:ON /C \"@for /f \"delims=\" %r in ('git rev-parse --show-toplevel') do @py -3 \"%r\\.codex\\hooks\\stop_verify.py\"\"",
             "timeout": 300,
             "statusMessage": "Running project verification"
           }

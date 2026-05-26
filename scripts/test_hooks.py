@@ -5,6 +5,8 @@ from __future__ import annotations
 import importlib.util
 import io
 import json
+import subprocess
+import sys
 from pathlib import Path
 from unittest.mock import patch
 
@@ -79,3 +81,19 @@ def test_stop_verify_no_package_is_noop(tmp_path):
 
     with patch("pathlib.Path.cwd", return_value=tmp_path):
         assert hook.main() == 0
+
+
+def test_hooks_json_windows_command_runs_from_repo_root():
+    if sys.platform != "win32":
+        return
+
+    cfg = json.loads((ROOT / ".codex" / "hooks.json").read_text(encoding="utf-8"))
+    command = cfg["hooks"]["PreToolUse"][0]["hooks"][0]["commandWindows"]
+    event = json.dumps({"tool_name": "Bash", "tool_input": {"command": "git reset --hard HEAD"}})
+
+    result = subprocess.run(command, input=event, text=True, capture_output=True, shell=True, cwd=ROOT, timeout=30)
+
+    assert result.returncode == 0
+    payload = json.loads(result.stdout)
+    decision = payload["hookSpecificOutput"]
+    assert decision["permissionDecision"] == "deny"
