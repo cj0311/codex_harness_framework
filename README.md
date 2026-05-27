@@ -34,8 +34,8 @@ python scripts/execute.py 0-mvp
 - `codex/{phase}` 브랜치 생성 또는 checkout
 - `AGENTS.md`와 `docs/*.md`를 매 step 프롬프트에 포함
 - 완료된 step의 `summary`를 다음 step 컨텍스트로 전달
-- 실패 시 최대 5회 재시도
-- 같은 에러가 5회 반복되면 circuit breaker로 중단
+- 실패 시 최대 3회 재시도
+- 같은 에러가 3회 반복되면 circuit breaker로 중단
 - step 결과를 `phases/{phase}/stepN-output.json`에 저장
 - 코드 변경과 phase 메타데이터를 분리 커밋
 

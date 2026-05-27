@@ -1,4 +1,4 @@
 interface:
   display_name: "Codex Harness Planner"
-  short_description: "Create phase and step plans for the Codex harness."
-  default_prompt: "Create a harness phase plan for the requested task."
+  short_description: "Codex Harness용 phase와 step 계획을 생성합니다."
+  default_prompt: "요청한 작업을 위한 Codex Harness phase 계획을 생성해 주세요."

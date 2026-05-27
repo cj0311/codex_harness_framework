@@ -63,8 +63,8 @@ def progress_indicator(label: str):
 class StepExecutor:
     """Execute step files inside a phase directory with Codex CLI."""
 
-    MAX_RETRIES = 5
-    CIRCUIT_BREAKER_THRESHOLD = 5
+    MAX_RETRIES = 3
+    CIRCUIT_BREAKER_THRESHOLD = 3
     FEAT_MSG = "feat({phase}): step {num} - {name}"
     CHORE_MSG = "chore({phase}): step {num} output"
     TZ = timezone(timedelta(hours=9))

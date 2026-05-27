@@ -153,8 +153,8 @@ python scripts/execute.py {task-name} --push  # 실행 후 push
 - `codex/{task-name}` 브랜치 생성 또는 checkout
 - 가드레일 주입: `AGENTS.md`와 `docs/*.md` 내용을 매 step 프롬프트에 포함
 - 컨텍스트 누적: 완료된 step의 `summary`를 다음 step 프롬프트에 전달
-- 자가 교정: 실패 시 최대 5회 재시도하며, 이전 에러 메시지를 프롬프트에 피드백
-- 반복 실패 차단: 같은 에러가 5회 반복되면 circuit breaker로 중단
+- 자가 교정: 실패 시 최대 3회 재시도하며, 이전 에러 메시지를 프롬프트에 피드백
+- 반복 실패 차단: 같은 에러가 3회 반복되면 circuit breaker로 중단
 - 2단계 커밋: 코드 변경(`feat`)과 실행 결과/메타데이터(`chore`)를 분리 커밋
 - 타임스탬프: `created_at`, `started_at`, `completed_at`, `failed_at`, `blocked_at` 자동 기록
 - `--push` 사용 시 실행 완료 후 현재 `codex/{task-name}` 브랜치를 origin에 push
