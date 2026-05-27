@@ -1,0 +1,4 @@
+interface:
+  display_name: "Codex Harness Planner"
+  short_description: "Create phase and step plans for the Codex harness."
+  default_prompt: "Create a harness phase plan for the requested task."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Codex Harness Review"
+  short_description: "Review changes against harness architecture, tests, and rules."
+  default_prompt: "Review the current changes with the harness checklist."
