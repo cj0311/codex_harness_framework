@@ -1,55 +1,53 @@
 ---
 name: codex-harness-review
-description: Review Codex Harness project changes against project docs, architecture, ADRs, tests, critical rules, and buildability. Use when the user asks to review a diff, commit, pull request, uncommitted changes, or harness-generated step output, especially as the Codex replacement for the old .claude/commands/review.md workflow.
+description: Codex Harness 프로젝트의 변경 사항을 문서, 아키텍처, ADR, 테스트, CRITICAL 규칙, 빌드 가능성 기준으로 리뷰한다. 사용자가 diff, commit, PR, 미커밋 변경, harness step 결과를 리뷰하라고 요청하거나 기존 .claude/commands/review.md 워크플로우를 Codex skill로 사용하려 할 때 사용한다.
 ---
 
 # Codex Harness Review
 
-## Review Setup
+이 프로젝트의 변경 사항을 리뷰하라.
 
-Read these files before judging the change:
+## 사전 확인
 
-- `AGENTS.md`
-- `docs/ARCHITECTURE.md`
-- `docs/ADR.md`
-- `docs/PRD.md` when product behavior is relevant
-- `docs/UI_GUIDE.md` when UI behavior or presentation is relevant
+먼저 다음 문서들을 읽어라:
 
-Inspect the target diff using the appropriate Git command:
+- `/AGENTS.md`
+- `/docs/ARCHITECTURE.md`
+- `/docs/ADR.md`
+- 제품 동작이 관련되면 `/docs/PRD.md`
+- UI 동작이나 표현이 관련되면 `/docs/UI_GUIDE.md`
 
-- uncommitted changes: `git diff --stat` and `git diff`
-- staged changes: `git diff --cached --stat` and `git diff --cached`
-- commit: `git show --stat <commit>` and `git show <commit>`
-- branch or PR base: `git diff --stat <base>...HEAD` and `git diff <base>...HEAD`
+그런 다음 리뷰 대상 변경을 확인한다.
 
-## Checklist
+- 미커밋 변경: `git diff --stat`, `git diff`
+- staged 변경: `git diff --cached --stat`, `git diff --cached`
+- 특정 커밋: `git show --stat <commit>`, `git show <commit>`
+- base 대비 현재 브랜치: `git diff --stat <base>...HEAD`, `git diff <base>...HEAD`
 
-Prioritize concrete defects over style. Check:
+## 체크리스트
 
-1. Architecture compliance: changed files follow `docs/ARCHITECTURE.md`.
-2. Stack compliance: implementation does not violate `docs/ADR.md`.
-3. Test coverage: new behavior has focused tests or a defensible reason why not.
-4. Critical rules: no `CRITICAL` rule in `AGENTS.md` is violated.
-5. Buildability: the relevant build, lint, typecheck, and test commands pass or the reason they were not run is explicit.
-6. Harness metadata integrity: phase and step status files use valid statuses and include required summaries, error messages, or blocked reasons when applicable.
-7. Scope control: the change does not include unrelated refactors, generated noise, or broad rewrites outside the requested step.
+아래 체크리스트로 검증하라.
 
-## Output
+1. 아키텍처 준수: `ARCHITECTURE.md`에 정의된 디렉토리 구조를 따르고 있는가?
+2. 기술 스택 준수: `ADR.md`에 정의된 기술 선택을 벗어나지 않았는가?
+3. 테스트 존재: 새로운 기능이나 동작 변경에 대한 테스트가 작성되어 있는가?
+4. CRITICAL 규칙: `AGENTS.md`의 CRITICAL 규칙을 위반하지 않았는가?
+5. 빌드 가능: 관련 빌드, lint, typecheck, test 명령어가 에러 없이 통과하는가?
+6. Harness 메타데이터: phase/step status가 유효하며, 완료/실패/차단 상태에 필요한 `summary`, `error_message`, `blocked_reason`이 들어 있는가?
+7. 범위 통제: 요청 범위를 벗어난 리팩터링, 생성물 노이즈, 광범위한 재작성은 없는가?
 
-Lead with findings ordered by severity. Include file and line references when possible.
+## 출력 형식
 
-Use this table only after findings or when the user specifically asks for checklist output:
+코드 리뷰 관점으로 작성한다. 발견한 문제를 먼저 심각도 순으로 제시하고, 가능한 경우 파일과 라인을 함께 적는다. 스타일 취향보다 버그, 회귀, 누락된 테스트, 설계 위반을 우선한다.
 
-| Item | Result | Notes |
+체크리스트 표가 필요하면 아래 형식을 사용한다.
+
+| 항목 | 결과 | 비고 |
 | --- | --- | --- |
-| Architecture | pass/fail | <details> |
-| Stack | pass/fail | <details> |
-| Tests | pass/fail | <details> |
-| CRITICAL rules | pass/fail | <details> |
-| Buildability | pass/fail | <details> |
+| 아키텍처 준수 | 통과/실패 | {상세} |
+| 기술 스택 준수 | 통과/실패 | {상세} |
+| 테스트 존재 | 통과/실패 | {상세} |
+| CRITICAL 규칙 | 통과/실패 | {상세} |
+| 빌드 가능 | 통과/실패 | {상세} |
 
-If there are no defects, state that clearly and list any verification commands that could not be run.
-
-## Fix Guidance
-
-When reporting a violation, give the smallest concrete fix. Prefer targeted changes over broad rewrites. If a failure is caused by missing project context, ask for that context instead of guessing.
+위반 사항이 있으면 가장 작은 수정 방안을 구체적으로 제시하라. 문제가 없으면 문제가 없다고 명확히 말하고, 실행하지 못한 검증 커맨드나 남은 리스크를 덧붙인다.
